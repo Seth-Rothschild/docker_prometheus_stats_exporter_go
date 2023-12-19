@@ -54,38 +54,40 @@ func TestGetDockerStats(t *testing.T) {
 	}
 }
 
+
 func TestConvertToBytes(t *testing.T) {
-	input := "10MiB"
-	expected := 10485760.
-	actual := convertToBytes(input)
-	if actual != expected {
-		t.Errorf("ConvertToBytes: expected %f, got %f", expected, actual)
-	}
-
-	input = "10GiB"
-	expected = 10737418240.
-	actual = convertToBytes(input)
-	if actual != expected {
-		t.Errorf("ConvertToBytes: expected %f, got %f", expected, actual)
-	}
-
-	input = "10kiB"
-	expected = 10240.
-	actual = convertToBytes(input)
-	if actual != expected {
-		t.Errorf("ConvertToBytes: expected %f, got %f", expected, actual)
-	}
-
-	input = "10B"
-	expected = 10.
-	actual = convertToBytes(input)
-	if actual != expected {
-		t.Errorf("ConvertToBytes: expected %f, got %f", expected, actual)
-	}
+	t.Run("convertBase10ToBytes", func(t *testing.T) {
+		inputs := []string{"10B", "10kB", "10MB", "10GB", "10TB"}
+		expected := []float64{10, 10000, 10000000, 10000000000, 10000000000000}
+		for i, input := range inputs {
+			actual, err := convertBase10ToBytes(input)
+			if err != nil {
+				t.Errorf("Error converting base10 to bytes: %s", err)
+			}
+			if actual != expected[i] {
+				t.Errorf("ConvertBase10ToBytes: expected %f, got %f", expected[i], actual)
+			}
+		}
+	})
+	t.Run("convertBase2ToBytes", func(t *testing.T) {
+		inputs := []string{"10B", "10kiB", "10MiB", "10GiB", "10TiB"}
+		expected := []float64{10, 10240, 10485760, 10737418240, 10995116277760}
+		for i, input := range inputs {
+			actual, err := convertBase2ToBytes(input)
+			if err != nil {
+				t.Errorf("Error converting base2 to bytes: %s", err)
+			}
+			if actual != expected[i] {
+				t.Errorf("ConvertBase2ToBytes: expected %f, got %f", expected[i], actual)
+			}
+		}
+	})
 }
+	
 
 func TestInitMetrics(t *testing.T) {
-	metrics := InitMetrics()
+	metrics := Metrics{}
+	metrics.InitMetrics()
 	if metrics.registry == nil {
 		t.Errorf("InitMetrics returned nil registry")
 	}
@@ -123,7 +125,8 @@ func TestUpdateMetrics(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error parsing docker stats line: %s", err)
 	}
-	metrics := InitMetrics()
+	metrics := Metrics{}
+	metrics.InitMetrics()
 	metrics.UpdateMetrics(stats)
 	var actual float64
 
