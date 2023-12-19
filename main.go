@@ -168,8 +168,8 @@ func convertBase2ToBytes(input string) (float64, error) {
 	} else if strings.HasSuffix(input, "MiB") {
 		bytes, err = strconv.ParseFloat(strings.TrimSuffix(input, "MiB"), 64)
 		bytes = math.Round(bytes * math.Pow(1024, 2))
-	} else if strings.HasSuffix(input, "kiB") {
-		bytes, err = strconv.ParseFloat(strings.TrimSuffix(input, "kiB"), 64)
+	} else if strings.HasSuffix(input, "KiB") {
+		bytes, err = strconv.ParseFloat(strings.TrimSuffix(input, "KiB"), 64)
 		bytes = math.Round(bytes * math.Pow(1024, 1))
 	} else if strings.HasSuffix(input, "B") {
 		bytes, err = strconv.ParseFloat(strings.TrimSuffix(input, "B"), 64)

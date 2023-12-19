@@ -70,7 +70,7 @@ func TestConvertToBytes(t *testing.T) {
 		}
 	})
 	t.Run("convertBase2ToBytes", func(t *testing.T) {
-		inputs := []string{"10B", "10kiB", "10MiB", "10GiB", "10TiB"}
+		inputs := []string{"10B", "10KiB", "10MiB", "10GiB", "10TiB"}
 		expected := []float64{10, 10240, 10485760, 10737418240, 10995116277760}
 		for i, input := range inputs {
 			actual, err := convertBase2ToBytes(input)
