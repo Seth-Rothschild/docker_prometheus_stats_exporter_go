@@ -52,6 +52,27 @@ func TestGetDockerStats(t *testing.T) {
 	if err != nil {
 		t.Errorf("Error parsing docker stats line: %s", err)
 	}
+
+	t.Run("GetDockerStats returns no blank lines", func(t *testing.T) {
+		for _, line := range stats {
+			if line == "" {
+				t.Errorf("GetDockerStats returned blank line")
+			}
+		}
+	})
+	t.Run("GetDockerStats container name is never only hyphens", func(t *testing.T) {
+		for _, line := range stats {
+			stats, err := ParseDockerStatsLine(line)
+			if err != nil {
+				t.Errorf("Error parsing docker stats line: %s", err)
+			}
+			if stats.Name == "--" {
+				t.Errorf("GetDockerStats returned container name of only hyphens")
+			}
+		}
+	})
+
+
 }
 
 

@@ -215,7 +215,8 @@ func GetDockerStats() []string {
 	if err != nil {
 		panic(err)
 	}
-	return strings.Split(string(out), "\n")
+	stats := strings.Split(string(out), "\n")
+	return stats[:len(stats)-1]
 }
 
 
