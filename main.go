@@ -40,14 +40,14 @@ type Metrics struct {
 func (m *Metrics) InitMetrics() {
 	registry := prometheus.NewRegistry()
 	blockIOInGauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "docker_block_io_in_bytes",
+		Name: "docker_block_io_in_bytes_total",
 		Help: "Docker stats",
 	},
 		[]string{"container_name"})
 	registry.MustRegister(blockIOInGauge)
 
 	blockIOOutGauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "docker_block_io_out_bytes",
+		Name: "docker_block_io_out_bytes_total",
 		Help: "Docker stats",
 	},
 		[]string{"container_name"})
@@ -82,14 +82,14 @@ func (m *Metrics) InitMetrics() {
 	registry.MustRegister(memAllowedGauge)
 
 	netIOInGauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "docker_net_io_in_bytes",
+		Name: "docker_net_io_in_bytes_total",
 		Help: "Docker stats",
 	},
 		[]string{"container_name"})
 	registry.MustRegister(netIOInGauge)
 
 	netIOOutGauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "docker_net_io_out_bytes",
+		Name: "docker_net_io_out_bytes_total",
 		Help: "Docker stats",
 	},
 		[]string{"container_name"})
